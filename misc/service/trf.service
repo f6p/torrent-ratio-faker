@@ -1,0 +1,9 @@
+[Unit]
+Description=TRF Torrent Ratio Faker
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/trf
+
+[Install]
+WantedBy=multi-user.target

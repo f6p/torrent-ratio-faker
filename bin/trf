@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+try:
+    from twisted.web import http, proxy
+    from twisted.internet import error, reactor
+except ImportError:
+    exit('Could not import from Twisted')
+
+import argparse
+import re
+
+class FakerProxyRequest(proxy.ProxyRequest):
+    download = 1
+    upload = 5
+
+    def process(self):
+        self.__multiply('downloaded', FakerProxyRequest.download)
+        self.__multiply('uploaded', FakerProxyRequest.upload)
+        proxy.ProxyRequest.process(self)
+
+    def __multiply(self, param, times):
+        regex = re.compile('%s=(\d+)' % param)
+        match = re.search(regex, self.uri)
+        if match:
+            value = int(match.group(1))
+            substitution = '%s=%d' % (param, times * value)
+            self.uri = re.sub(regex, substitution, self.uri)
+
+class FakerProxy(proxy.Proxy):
+    requestFactory = FakerProxyRequest
+
+class FakerProxyFactory(http.HTTPFactory):
+    protocol = FakerProxy
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', default=FakerProxyRequest.download,
+        help='download modifier, default: %.2f' % FakerProxyRequest.download)
+    parser.add_argument('-u', default=FakerProxyRequest.upload,
+        help='upload modifier, default: %.2f' % FakerProxyRequest.upload)
+    parser.add_argument('-p', default=7666,
+        help='proxy port, default: 7666')
+
+    args = parser.parse_args()
+    FakerProxyRequest.download = float(args.d)
+    FakerProxyRequest.upload = float(args.u)
+
+    try:
+        reactor.listenTCP(int(args.p), FakerProxyFactory())
+        reactor.run()
+    except error.CannotListenError:
+        exit('Port already in use')
