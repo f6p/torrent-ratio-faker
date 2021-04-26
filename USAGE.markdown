@@ -23,8 +23,8 @@ To run proxy that multiplies download x 0.5 and uplad x 50 run:
 Client configuration
 --------------------
 
-You need to configure BitTorrent client to use HTTP proxy server. If
-you are using Azureus for example go to:
+You need to configure BitTorrent client to use HTTP proxy server. Only tracker
+communication should be proxified. For example if you are using Azureus go to:
 
         Tools > Options > Connection > Proxy Options
 
@@ -36,7 +36,7 @@ set host to:
 
         127.0.0.1
 
-and port to (unless you specified differend port):
+and port to (unless you specified other port):
 
         7666
 

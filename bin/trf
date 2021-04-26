@@ -14,16 +14,16 @@ class FakerProxyRequest(proxy.ProxyRequest):
     upload = 5
 
     def process(self):
-        self.__multiply('downloaded', FakerProxyRequest.download)
-        self.__multiply('uploaded', FakerProxyRequest.upload)
+        self.__multiply(b'downloaded', FakerProxyRequest.download)
+        self.__multiply(b'uploaded', FakerProxyRequest.upload)
         proxy.ProxyRequest.process(self)
 
     def __multiply(self, param, times):
-        regex = re.compile('%s=(\d+)' % param)
+        regex = re.compile(b'%s=(\d+)' % param)
         match = re.search(regex, self.uri)
         if match:
             value = int(match.group(1))
-            substitution = '%s=%d' % (param, times * value)
+            substitution = b'%s=%d' % (param, value * times)
             self.uri = re.sub(regex, substitution, self.uri)
 
 class FakerProxy(proxy.Proxy):
