@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/usr/bin/trf
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

@@ -2,7 +2,7 @@ Installation
 ------------
 
 To run proxy you need Python Twisted modules (twistedmatrix.com). I do
-not konw how to install them on OS X or Windows so you have to
+not know how to install them on OS X or Windows so you have to
 eventually figure this out by yourself. On Linux you most likely want
 to install them via distribution package manager.
 
@@ -16,7 +16,7 @@ To see how to use proxy run:
 
         trf --help
 
-To run proxy that multiplies download x 0.5 and uplad x 50 run:
+To run proxy that multiplies download x 0.5 and upload x 50 run:
 
         trf -d 0.5 -u 50
 
@@ -24,7 +24,7 @@ Client configuration
 --------------------
 
 You need to configure BitTorrent client to use HTTP proxy server. Only tracker
-communication should be proxified. For example if you are using Azureus go to:
+communication should be proxied. For example if you are using Azureus go to:
 
         Tools > Options > Connection > Proxy Options
 
@@ -46,4 +46,4 @@ Extras
 You can build RPM package using spec from misc folder. Resulting RPM
 will include service file so proxy can be nicely managed by
 systemd. Alternatively you can install service manually. For doing any
-of those refer documentation for building RPMs and/or systemd.
+of those refer to the documentation for building RPMs and/or systemd.
